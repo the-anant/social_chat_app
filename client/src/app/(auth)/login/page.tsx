@@ -13,8 +13,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const rounter=useRouter()
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -23,9 +25,12 @@ export default function Login() {
     console.log(user);
     try {
       axios
-        .post("http://localhost:3000/auth/register", user)
+        .post("/auth/login", user)
         .then((response) => {
-          console.log("Response:", response.data);
+          console.log("Response:", response);
+          if(response.statusText==="OK"){
+            // rounter.push('/chat')
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -39,10 +44,10 @@ export default function Login() {
       <div className=" flex justify-center mt-3">
         <Card className="w-[350px] shadow-2xl">
           <CardHeader>
-            <CardTitle className="text-center">Register</CardTitle>
+            <CardTitle className="text-center">Login</CardTitle>
             <CardDescription className="text-center">
-              If You Have an Account{" "}
-              <Link href={"/login"}>click hear for login</Link>
+              If You have not an Account{" "}
+              <Link href={"/register"}>click hear for</Link>Creating Account
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -75,7 +80,7 @@ export default function Login() {
           </CardContent>
           <CardFooter className="flex justify-center">
             <Button onClick={Onsave} variant={"ghost"}>
-              Create Account
+              Login
             </Button>
           </CardFooter>
         </Card>

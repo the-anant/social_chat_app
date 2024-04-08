@@ -13,8 +13,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+  const rounter=useRouter()
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -24,9 +26,12 @@ export default function Register() {
     console.log(user);
     try {
       axios
-        .post("http://localhost:3000/auth/register", user)
+        .post("/auth/register", user)
         .then((response) => {
-          console.log("Response:", response.data);
+          console.log("Response:", response);
+          if(response.statusText==="OK"){
+            rounter.push('/login')
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
